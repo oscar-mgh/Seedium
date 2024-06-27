@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Seedium.Data;
 using Seedium.Repositories.Implementation;
 using Seedium.Repositories.Interface;
+using Seedium.Swagger;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,25 +86,7 @@ builder.Services.AddSwaggerGen(opts =>
         }
     );
 
-    opts.AddSecurityRequirement(
-        new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = JwtBearerDefaults.AuthenticationScheme,
-                    },
-                    Scheme = "oauth2",
-                    Name = JwtBearerDefaults.AuthenticationScheme,
-                    In = ParameterLocation.Header
-                },
-                new List<string>()
-            }
-        }
-    );
+    opts.OperationFilter<AuthorizationFilter>();
 });
 
 var app = builder.Build();
@@ -112,20 +94,36 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(opts =>
+    {
+        opts.SwaggerEndpoint("/swagger/v1/swagger.json", "Seedium API v1");
+        opts.RoutePrefix = string.Empty;
+        opts.InjectStylesheet("/css/theme-material.css");
+    });
 }
 
 app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthorization();
 app.MapControllers();
-app.UseStaticFiles(
-    new StaticFileOptions
+app.UseStaticFiles();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
     {
-        FileProvider = new PhysicalFileProvider(
-            Path.Combine(Directory.GetCurrentDirectory(), "Images")
-        ),
-        RequestPath = "/Images"
+        var context = services.GetRequiredService<AppDbContext>();
+        var authContext = services.GetRequiredService<AuthDbContext>();
+        await context.Database.MigrateAsync();
+        await authContext.Database.MigrateAsync();
+
+        await Seeder.Seed(context);
     }
-);
+    catch (Exception)
+    {
+        Log.Error("An error occurred while initializing the database.");
+    }
+}
 
 app.Run();

@@ -2,7 +2,6 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Seedium.ActionFilters;
-using Seedium.Data;
 using Seedium.Models.Domain;
 using Seedium.Models.DTO;
 using Seedium.Repositories.Interface;
@@ -29,9 +28,23 @@ public class BlogPostsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllBlogPosts()
+    public async Task<IActionResult> GetAllBlogPosts(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 5,
+        [FromQuery] string? sortBy = null,
+        [FromQuery] bool sortDesc = false,
+        [FromQuery] string? filterOn = null,
+        [FromQuery] string? filterQuery = null
+    )
     {
-        var blogposts = await _blogPostRepository.GetAllAsync();
+        var blogposts = await _blogPostRepository.GetAllAsync(
+            filterOn,
+            filterQuery,
+            sortBy,
+            sortDesc,
+            pageNumber,
+            pageSize
+        );
         var blogpostDtos = blogposts.Adapt<List<BlogPostDto>>();
 
         _logger.LogInformation("list of BlogPost Dto : {blogpostDtos}", blogpostDtos);

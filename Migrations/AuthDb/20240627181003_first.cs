@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Seedium.Migrations.AuthDb
 {
     /// <inheritdoc />
-    public partial class Auth : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -170,7 +170,7 @@ namespace Seedium.Migrations.AuthDb
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1a9a085a-8a89-4097-9fd1-4502288cb381", 0, "f592b30a-d8d5-4d81-9f22-20cb4e81b9c9", "admin@Seedium.com", false, false, null, "ADMIN@Seedium.COM", "ADMIN@Seedium.COM", "AQAAAAIAAYagAAAAENPMIZKPdVJbYTI9Uku+377LpQJul2Yz7b/BWqoH4xreUQIeATF+SJpqXeayqPQZWg==", null, false, "bdefa1c2-3f40-4ef9-bdb0-1291ad4a2fb9", false, "admin@Seedium.com" });
+                values: new object[] { "1a9a085a-8a89-4097-9fd1-4502288cb381", 0, "ef111ed8-5025-4b2d-bd23-9c8148d079a6", "admin@seedium.com", false, false, null, "ADMIN@SEEDIUM.COM", "ADMIN@SEEDIUM.COM", "AQAAAAIAAYagAAAAECynga5fm/c8YPMt4A/gu131RhSgXMASQpNi09pSiz9lBQs7zac4Cjx0hAb/PwGinw==", null, false, "c4c7b12d-f9df-4a4c-8a5b-d535461d1eb8", false, "admin@seedium.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

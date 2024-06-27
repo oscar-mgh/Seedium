@@ -84,12 +84,6 @@ public class AppDbContext : DbContext
             },
             new Category
             {
-                Id = Guid.Parse("252a07cb-d1df-4029-83fe-a7c35a0d9c47"),
-                Name = "React",
-                Slug = "react-blogs"
-            },
-            new Category
-            {
                 Id = Guid.Parse("e956e7f0-2518-41a5-b8e1-4ec91290f365"),
                 Name = "Java",
                 Slug = "java-blogs"
@@ -115,7 +109,6 @@ public class AppDbContext : DbContext
         ];
 
         builder.Entity<Category>().HasData(categories);
-
         builder.Entity<BlogPost>().Navigation(e => e.Categories).AutoInclude();
     }
 

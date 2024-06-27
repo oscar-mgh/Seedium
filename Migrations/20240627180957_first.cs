@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Seedium.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -92,12 +92,11 @@ namespace Seedium.Migrations
                 {
                     { new Guid("0703b36b-fd1d-4ec5-99af-540278e3727b"), "NestJS", "nest-blogs" },
                     { new Guid("09f35d85-9e8e-4e44-ae91-c276743e2a08"), "JavaScript", "js-blogs" },
-                    { new Guid("252a07cb-d1df-4029-83fe-a7c35a0d9c47"), "React", "react-blogs" },
                     { new Guid("29316fd9-ee3f-4473-8ca2-e3acf9ad8623"), "ASP.NET Core", "dotnet-blogs" },
                     { new Guid("2a94d6b9-8755-4c1f-beb9-44391e84e229"), "Artificial Intelligence", "ai-blogs" },
                     { new Guid("34680195-b466-4bec-b015-e6c17fe4f212"), "C#", "csharp-blogs" },
                     { new Guid("37384065-f8dc-4e11-9476-727e38c84773"), "TypeScript", "ts-blogs" },
-                    { new Guid("4e23b927-647c-4114-81c3-63d39bbb890a"), "Django", "django-blogs" },
+                    { new Guid("4e23b927-647c-4114-81c3-63d39bbb890a"), "Rust", "rust-blogs" },
                     { new Guid("675384ca-b046-4de9-843f-3b81d2d89801"), "Python", "python-blogs" },
                     { new Guid("78c279ef-1705-4676-9d37-c31774b68e5b"), "Angular", "angular-blogs" },
                     { new Guid("7ee044bd-7959-45e9-b1f5-5becebec2270"), "HTTP", "http-blogs" },

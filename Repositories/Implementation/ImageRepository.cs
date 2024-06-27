@@ -31,7 +31,7 @@ public class ImageRepository : IImageRepository
     {
         var localPath = Path.Combine(
             _webHostEnvironment.ContentRootPath,
-            "Images",
+            "wwwroot", "Images",
             $"{image.FileName}{image.FileExtension}"
         );
         using var stream = new FileStream(localPath, FileMode.Create);
@@ -39,7 +39,7 @@ public class ImageRepository : IImageRepository
 
         var httpRequest = _httpContextAccessor.HttpContext!.Request;
         var urlPath =
-            $"{httpRequest.Scheme}://{httpRequest.Host}{httpRequest.PathBase}/Images/{image.FileName}{image.FileExtension}";
+            $"{httpRequest.Scheme}://{httpRequest.Host}{httpRequest.PathBase}/wwwroot/Images/{image.FileName}{image.FileExtension}";
 
         image.Url = urlPath;
         _dbContext.BlogImages.Add(image);
