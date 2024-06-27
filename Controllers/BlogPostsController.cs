@@ -30,7 +30,7 @@ public class BlogPostsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllBlogPosts(
         [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 5,
+        [FromQuery] int pageSize = 6,
         [FromQuery] string? sortBy = null,
         [FromQuery] bool sortDesc = false,
         [FromQuery] string? filterOn = null,

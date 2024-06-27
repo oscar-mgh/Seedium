@@ -82,9 +82,34 @@ public class Seeder
                     Slug = "simple-calculator-app-aspnet-core",
                     Author = "AI Generated",
                     PublishedDate = DateTime.Now,
-                    IsVisible = true
+                    IsVisible = true,
                 }
             };
+
+            var dbCategories = appDbContext.Categories.AsQueryable();
+            blogPosts[0].Categories = [
+                .. dbCategories.Where(x => x.Id == Guid.Parse("a9efd598-49ac-4fe7-814c-aa7ff2947ee1")),
+                .. dbCategories.Where(x => x.Id == Guid.Parse("2a94d6b9-8755-4c1f-beb9-44391e84e229"))
+            ];
+            blogPosts[1].Categories = [
+                .. dbCategories.Where(x => x.Id == Guid.Parse("7ee044bd-7959-45e9-b1f5-5becebec2270")),
+                .. dbCategories.Where(x => x.Id == Guid.Parse("09f35d85-9e8e-4e44-ae91-c276743e2a08"))
+            ];
+            blogPosts[2].Categories = [
+                .. dbCategories.Where(x => x.Id == Guid.Parse("34680195-b466-4bec-b015-e6c17fe4f212")),
+                .. dbCategories.Where(x => x.Id == Guid.Parse("29316fd9-ee3f-4473-8ca2-e3acf9ad8623"))
+            ];
+            blogPosts[3].Categories = [
+                .. dbCategories.Where(x => x.Id == Guid.Parse("34680195-b466-4bec-b015-e6c17fe4f212"))
+            ];
+            blogPosts[4].Categories = [
+                .. dbCategories.Where(x => x.Id == Guid.Parse("a9efd598-49ac-4fe7-814c-aa7ff2947ee1")),
+                .. dbCategories.Where(x => x.Id == Guid.Parse("ada50148-57e7-4702-8b03-7f8f0622b38e"))
+            ];
+            blogPosts[5].Categories = [
+                .. dbCategories.Where(x => x.Id == Guid.Parse("34680195-b466-4bec-b015-e6c17fe4f212")),
+                .. dbCategories.Where(x => x.Id == Guid.Parse("29316fd9-ee3f-4473-8ca2-e3acf9ad8623"))
+            ];
 
             await appDbContext.BlogPosts.AddRangeAsync(blogPosts);
             await appDbContext.SaveChangesAsync();
