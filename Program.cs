@@ -91,16 +91,13 @@ builder.Services.AddSwaggerGen(opts =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(opts =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(opts =>
-    {
-        opts.SwaggerEndpoint("/swagger/v1/swagger.json", "Seedium API v1");
-        opts.RoutePrefix = string.Empty;
-        opts.InjectStylesheet("/css/theme-material.css");
-    });
-}
+    opts.SwaggerEndpoint("/swagger/v1/swagger.json", "Seedium API v1");
+    opts.RoutePrefix = string.Empty;
+    opts.InjectStylesheet("/css/theme-material.css");
+});
 
 app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthorization();
