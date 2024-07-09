@@ -29,21 +29,21 @@ public class BlogPostsController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAllBlogPosts(
-        [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 6,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] bool isAsc = true,
         [FromQuery] string? sortBy = null,
-        [FromQuery] bool sortDesc = false,
         [FromQuery] string? filterOn = null,
         [FromQuery] string? filterQuery = null
     )
     {
         var blogposts = await _blogPostRepository.GetAllAsync(
-            filterOn,
-            filterQuery,
-            sortBy,
-            sortDesc,
+            pageSize,
             pageNumber,
-            pageSize
+            isAsc,
+            sortBy,
+            filterOn,
+            filterQuery
         );
         var blogpostDtos = blogposts.Adapt<List<BlogPostDto>>();
 

@@ -5,12 +5,12 @@ namespace Seedium.Repositories.Interface;
 public interface IBlogPostRepository
 {
     Task<IEnumerable<BlogPost>> GetAllAsync(
-        string? filterOn,
-        string? filterQuery,
-        string? sortBy,
-        bool sortDesc,
+        int pageSize,
         int pageNumber,
-        int pageSize
+        bool isAsc,
+        string? sortBy,
+        string? filterOn,
+        string? filterQuery
     );
 
     Task<BlogPost?> GetByIdAsync(Guid id);

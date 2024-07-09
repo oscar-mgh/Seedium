@@ -15,47 +15,46 @@ public class BlogPostRepository : IBlogPostRepository
     }
 
     public async Task<IEnumerable<BlogPost>> GetAllAsync(
-        string? filterOn,
-        string? filterQuery,
-        string? sortBy,
-        bool sortDesc,
+        int pageSize,
         int pageNumber,
-        int pageSize
+        bool isAsc,
+        string? sortBy,
+        string? filterOn,
+        string? filterQuery
     )
     {
-        var blogs = _context.BlogPosts.Include(x => x.Categories).AsQueryable();
+        var blogs = _context.BlogPosts.Include("Categories").AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery))
+        if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
         {
             if (filterOn.Equals("Title", StringComparison.OrdinalIgnoreCase))
             {
-                blogs = blogs.Where(x => x.Title.Contains(filterQuery, StringComparison.OrdinalIgnoreCase));
+                blogs = blogs.Where(x => x.Title.Contains(filterQuery));
             }
-            if (filterOn.Equals("Content", StringComparison.OrdinalIgnoreCase))
+            if (filterOn.Equals("content"))
             {
-                blogs = blogs.Where(x => x.Title.Contains(filterQuery, StringComparison.OrdinalIgnoreCase));
+                blogs = blogs.Where(x => x.Title.Contains(filterQuery));
             }
         }
 
         if (!string.IsNullOrWhiteSpace(sortBy))
         {
-            if (sortBy.Equals("Title", StringComparison.OrdinalIgnoreCase))
+            if (sortBy.Equals("title"))
             {
-                blogs = sortDesc
-                ? blogs.OrderByDescending(x => x.Title)
-                : blogs.OrderBy(x => x.Title);
-            }
-            else if (sortBy.Equals("Content", StringComparison.OrdinalIgnoreCase))
+                blogs = isAsc
+                ? blogs.OrderBy(x => x.Title)
+                : blogs.OrderByDescending(x => x.Title);
+            } else if (sortBy.Equals("content"))
             {
-                blogs = sortDesc
-                ? blogs.OrderByDescending(x => x.Content)
-                : blogs.OrderBy(x => x.Content);
+                blogs = isAsc
+                ? blogs.OrderBy(x => x.Content)
+                : blogs.OrderByDescending(x => x.Content);
             }
         }
 
         var skipResults = (pageNumber - 1) * pageSize;
 
-        return await _context.BlogPosts
+        return await blogs
             .Skip(skipResults)
             .Take(pageSize)
             .AsNoTracking().ToListAsync();
